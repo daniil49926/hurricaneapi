@@ -1,7 +1,6 @@
 from typing import Any
 
-from starlette.concurrency import run_in_threadpool
-
+from hurricaneapi.concurrency import non_blocking_sync_endpoint
 from hurricaneapi.dependencies.models import Dependant
 
 
@@ -15,4 +14,4 @@ async def run_endpoint_function(
     if is_coroutine:
         return await dependant.call(**values)
     else:
-        return await run_in_threadpool(dependant.call, **values)
+        return await non_blocking_sync_endpoint(dependant.call, values)
