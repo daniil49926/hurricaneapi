@@ -1,5 +1,5 @@
 from typing import Dict, Callable, Any
-from hurricaneapi.routing.Route import Route
+from hurricaneapi.routing.route import Route
 
 
 class Router:

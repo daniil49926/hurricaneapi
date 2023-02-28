@@ -1,5 +1,5 @@
 from typing import Callable, Any
-from hurricaneapi.routing.Router import Router
+from hurricaneapi.routing.router import Router
 
 
 class HurricaneApi:
