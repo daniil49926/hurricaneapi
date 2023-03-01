@@ -7,13 +7,9 @@ class JSONResponse(Response):
     def __init__(
         self,
         content: Any = None,
-        media_type: Optional[str] = None,
-        charset: Optional[str] = 'utf-8',
-        status_code: int = 200,
         headers: Optional[Mapping[bytes | str, bytes | str]] = None
     ) -> None:
-        super().__init__(content, media_type, charset, status_code, headers)
-        self.media_type = 'application/json'
+        super().__init__(content=content, media_type='application/json', headers=headers)
 
     @staticmethod
     def render_response(content: Any) -> bytes:
