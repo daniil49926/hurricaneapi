@@ -58,7 +58,6 @@ class Response:
                 'headers': self.headers,
             }
         )
-
         await send(
             {
                 'type': 'http.response.body',
