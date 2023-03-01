@@ -32,5 +32,7 @@ class HurricaneApi:
                 receive=receive,
                 send=send,
             )
+        else:
+            await Response(content="Not found", status_code=404).__call__(scope, receive, send)
 
 
