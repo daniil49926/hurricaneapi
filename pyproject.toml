@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hurricaneapi"
+description = "Hurricaneapi framework"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+authors = [
+    { name = "Shchipko Daniil", email = "daniil49925@ya.ru" },
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/daniil49926/hurricaneapi"
+
+[tool.hatch.version]
+path = "hurricaneapi/__init__.py"
