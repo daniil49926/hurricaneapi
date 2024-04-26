@@ -1,4 +1,5 @@
-from typing import Any, Optional, Mapping
+from typing import Any, Mapping, Optional
+
 from hurricaneapi.responses.response import Response
 
 

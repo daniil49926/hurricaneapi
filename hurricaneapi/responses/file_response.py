@@ -1,12 +1,12 @@
 import asyncio
 import hashlib
+import os
 from email.utils import formatdate
+from mimetypes import guess_type
+from typing import Mapping, Optional
+from urllib.parse import quote
 
 import aiofiles
-import os
-from mimetypes import guess_type
-from typing import Optional, Mapping
-from urllib.parse import quote
 
 from hurricaneapi.responses.response import Response
 
@@ -42,8 +42,8 @@ class FileResponse(Response):
     async def __call__(self, scope, receive, send) -> None:
         try:
             stat_result = await asyncio.to_thread(os.stat, self.path_to_file)
-        except FileNotFoundError:
-            raise RuntimeError(f"File {self.path_to_file} not exist.")
+        except FileNotFoundError as error:
+            raise RuntimeError(f"File {self.path_to_file} not exist.") from error
         for idx, header in enumerate(self.headers):
             if header[0] == b'content-length':
                 self.headers.pop(idx)
@@ -77,7 +77,6 @@ class FileResponse(Response):
             }
         )
         async with aiofiles.open(self.path_to_file, mode="rb") as file:
-            more_body = True
             while chunk := await file.read(64 * 1024):
                 if len(chunk) <= 0:
                     break
@@ -85,6 +84,6 @@ class FileResponse(Response):
                     {
                         "type": "http.response.body",
                         "body": chunk,
-                        "more_body": more_body,
+                        "more_body": True,
                     }
                 )

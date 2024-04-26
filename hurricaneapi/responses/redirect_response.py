@@ -1,7 +1,8 @@
-from typing import Any, Optional, Mapping
+from typing import Any, Mapping, Optional
 from urllib.parse import quote
 
 from hurricaneapi.responses.response import Response
+
 
 class RedirectResponse(Response):
     def __init__(

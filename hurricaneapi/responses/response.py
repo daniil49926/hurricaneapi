@@ -1,4 +1,4 @@
-from typing import Any, Optional, Mapping, List
+from typing import Any, List, Mapping, Optional
 
 
 class Response:
