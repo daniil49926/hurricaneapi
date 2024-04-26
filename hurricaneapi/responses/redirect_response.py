@@ -1,7 +1,8 @@
-from typing import Any, Optional, Mapping
+from typing import Any, Mapping, Optional
 from urllib.parse import quote
 
 from hurricaneapi.responses.response import Response
+
 
 class RedirectResponse(Response):
     def __init__(
@@ -18,7 +19,7 @@ class RedirectResponse(Response):
             status_code=status_code,
             headers=headers,
             media_type=media_type,
-            charset=charset
+            charset=charset,
         )
         if isinstance(url, str):
             self.headers.append((b'location', quote(url, safe=":/%#?=@[]!$&'()*+,;").encode('utf-8')))

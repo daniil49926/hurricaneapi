@@ -1,6 +1,7 @@
-from typing import Callable, Any, Optional
-from hurricaneapi.routing.router import Router
+from typing import Any, Callable, Optional
+
 from hurricaneapi.responses.response import Response
+from hurricaneapi.routing.router import Router
 
 
 class HurricaneApi:
