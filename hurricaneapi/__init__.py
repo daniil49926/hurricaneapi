@@ -1,5 +1,4 @@
 
-__version__ = "0.1.4"
-
+__version__ = "0.1.5"
+import hurricaneapi.responses
 from hurricaneapi.application import HurricaneApi
-from hurricaneapi.responses import Response, JSONResponse, HTMLResponse, PlainTextResponse
