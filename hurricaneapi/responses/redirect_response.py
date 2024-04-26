@@ -18,7 +18,7 @@ class RedirectResponse(Response):
             status_code=status_code,
             headers=headers,
             media_type=media_type,
-            charset=charset
+            charset=charset,
         )
         if isinstance(url, str):
             self.headers.append((b'location', quote(url, safe=":/%#?=@[]!$&'()*+,;").encode('utf-8')))
