@@ -11,6 +11,9 @@ license = "MIT"
 authors = [
     { name = "Shchipko Daniil", email = "daniil49925@ya.ru" },
 ]
+dependencies = [
+    "aiofiles>=23.0.1,<23.2.1",
+]
 dynamic = ["version"]
 
 [project.urls]
