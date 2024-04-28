@@ -1,2 +1,4 @@
 setuptools~=60.2.0
 aiofiles~=23.2.1
+uvicorn~=0.20.0
+grpcio~=1.62.2

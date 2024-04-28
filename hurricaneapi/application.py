@@ -1,3 +1,4 @@
+import time
 from collections import deque
 from typing import Any, Callable, Optional
 
@@ -18,12 +19,27 @@ class HurricaneApi:
         self.router: Router = Router()
         self.middleware_stack: deque = deque()
         self._build_base_middleware_in_stack()
+        self.grpc_classes: dict = {}
 
     def get(self, path: str) -> Callable[..., Any]:
         return self.router.get(path=path)
 
     def post(self, path: str) -> Callable[..., Any]:
         return self.router.post(path=path)
+
+    def grpc(
+        self,
+        class_: Any,
+        method_: Any,
+        add_method_: Any,
+    ):
+        def wrapper(func: Callable[..., Any]) -> Callable[..., Any]:
+            if class_ in self.grpc_classes:
+                self.grpc_classes[class_]['methods'][method_.__name__] = func
+            else:
+                self.grpc_classes[class_] = {'__add__method': add_method_, 'methods': {method_.__name__: func}}
+            return func
+        return wrapper
 
     @staticmethod
     async def _call_async_endpoint(async_func: Callable[..., Any], scope, receive, send):
@@ -74,3 +90,40 @@ class HurricaneApi:
     def _build_base_middleware_in_stack(self) -> None:
         self.middleware_stack.append(CORSMiddleware())
         self.middleware_stack.append(TrustedHostMiddleware())
+
+    def _serve_grpc(self, port):
+        from concurrent import futures
+
+        import grpc
+
+
+        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+        for grpc_class in self.grpc_classes:
+            new_class = type(f'{grpc_class.__name__}nc', (grpc_class, ), self.grpc_classes[grpc_class]['methods'])
+            self.grpc_classes[grpc_class]['__add__method'](new_class, server)
+
+        server.add_insecure_port(f'[::]:{port}')
+        server.start()
+        server.wait_for_termination()
+
+    def run_app(
+        self,
+        rest_app: str,
+        rest_port: int,
+        grpc_port: int,
+    ):
+        from multiprocessing import Process
+
+        import uvicorn
+        rest_proc = Process(target=uvicorn.run, kwargs={'app': rest_app, 'port': rest_port})
+        grpc_proc = Process(target=self._serve_grpc, kwargs={'port': grpc_port})
+        try:
+            rest_proc.start()
+            grpc_proc.start()
+            rest_proc.join()
+            grpc_proc.join()
+        except KeyboardInterrupt:
+            rest_proc.terminate()
+            time.sleep(1)
+            grpc_proc.terminate()
+            time.sleep(1)
