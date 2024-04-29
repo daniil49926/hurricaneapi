@@ -27,6 +27,18 @@ class HurricaneApi:
     def post(self, path: str) -> Callable[..., Any]:
         return self.router.post(path=path)
 
+    def put(self, path: str) -> Callable[..., Any]:
+        return self.router.put(path=path)
+
+    def delete(self, path: str) -> Callable[..., Any]:
+        return self.router.delete(path=path)
+
+    def patch(self, path: str) -> Callable[..., Any]:
+        return self.router.patch(path=path)
+
+    def head(self, path: str) -> Callable[..., Any]:
+        return self.router.head(path=path)
+
     def grpc(
         self,
         class_: Any,
