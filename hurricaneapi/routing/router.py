@@ -32,3 +32,32 @@ class Router:
             self._add_route(path=path, method='POST', endpoint_route=route)
             return func
         return wrapper
+
+    def put(self, path: str) -> Callable[..., Any]:
+        def wrapper(func: Callable[..., Any]) -> Callable[..., Any]:
+            route: Route = Route(path=path, method='PUT', endpoint=func)
+            self._add_route(path=path, method='PUT', endpoint_route=route)
+            return func
+        return wrapper
+
+    def delete(self, path: str) -> Callable[..., Any]:
+        def wrapper(func: Callable[..., Any]) -> Callable[..., Any]:
+            route: Route = Route(path=path, method='DELETE', endpoint=func)
+            self._add_route(path=path, method='DELETE', endpoint_route=route)
+            return func
+        return wrapper
+
+    def patch(self, path: str) -> Callable[..., Any]:
+        def wrapper(func: Callable[..., Any]) -> Callable[..., Any]:
+            route: Route = Route(path=path, method='PATCH', endpoint=func)
+            self._add_route(path=path, method='PATCH', endpoint_route=route)
+            return func
+        return wrapper
+
+    def head(self, path: str) -> Callable[..., Any]:
+        def wrapper(func: Callable[..., Any]) -> Callable[..., Any]:
+            route: Route = Route(path=path, method='HEAD', endpoint=func)
+            self._add_route(path=path, method='HEAD', endpoint_route=route)
+            return func
+
+        return wrapper
