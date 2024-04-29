@@ -113,10 +113,12 @@ class HurricaneApi:
         for grpc_class in self.grpc_classes:
             new_class = type(f'{grpc_class.__name__}nc', (grpc_class, ), self.grpc_classes[grpc_class]['methods'])
             self.grpc_classes[grpc_class]['__add__method'](new_class, server)
-
-        server.add_insecure_port(f'[::]:{port}')
-        server.start()
-        server.wait_for_termination()
+        try:
+            server.add_insecure_port(f'[::]:{port}')
+            server.start()
+            server.wait_for_termination()
+        except KeyboardInterrupt:
+            time.sleep(0.2)
 
     def run_app(
         self,
