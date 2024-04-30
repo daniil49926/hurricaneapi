@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "hurricaneapi"
 description = "Hurricaneapi framework"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = "MIT"
 authors = [
     { name = "Shchipko Daniil", email = "daniil49925@ya.ru" },
