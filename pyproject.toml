@@ -12,7 +12,9 @@ authors = [
     { name = "Shchipko Daniil", email = "daniil49925@ya.ru" },
 ]
 dependencies = [
-    "aiofiles>=23.0.1,<23.2.1",
+    "aiofiles>=23.0.1,<23.2.2",
+    "grpcio==1.62.2",
+    "uvicorn==0.20.0",
 ]
 dynamic = ["version"]
 
