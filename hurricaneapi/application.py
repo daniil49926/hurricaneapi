@@ -2,6 +2,7 @@ import time
 from collections import deque
 from typing import Any, Callable, Optional
 
+from hurricaneapi.dependencies import DependenceProtocol
 from hurricaneapi.middleware import (
     BaseMiddleware,
     CORSMiddleware,
@@ -20,6 +21,7 @@ class HurricaneApi:
         self.middleware_stack: deque = deque()
         self._build_base_middleware_in_stack()
         self.grpc_classes: dict = {}
+        self.dependencies: dict[str, DependenceProtocol] = {}
 
     def get(self, path: str) -> Callable[..., Any]:
         return self.router.get(path=path)
@@ -81,6 +83,19 @@ class HurricaneApi:
     def add_middleware(self, middleware: list[BaseMiddleware]) -> None:
         self._build_user_middleware_in_stack(middleware)
 
+    def add_dependence(self, dependence_name: str, link_to_object: DependenceProtocol) -> None:
+        if not isinstance(link_to_object, DependenceProtocol):
+            raise RuntimeError(
+                f'Type of dependency should be DependenceProtocol {type(link_to_object)=}'
+            )
+        if dependence_name in self.dependencies:
+            raise RuntimeError(
+                f'Dependence with name {dependence_name} is already exists in project'
+            )
+        self.dependencies[dependence_name] = link_to_object
+
+    def get_dependencies_as_dict(self) -> dict[str, DependenceProtocol]:
+        return self.dependencies
 
     def _build_user_middleware_in_stack(
         self, user_middleware_list: Optional[list[BaseMiddleware]]
