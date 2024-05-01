@@ -5,7 +5,7 @@ class DependenceProtocol:
     def __init__(self):
         self.env_file_path: str = '.env.hurricaneapi'
         self.env_var: dict[str, str] = {}
-        with open(self.env_file_path, 'r') as file:
+        with open(self.env_file_path) as file:
             while line := file.readline().replace(' ', '').replace('\n', '').split('='):
                 if len(line) != 2:
                     break
