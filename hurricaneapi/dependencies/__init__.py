@@ -1,0 +1,4 @@
+from hurricaneapi.dependencies.dependence import DependenceProtocol
+from hurricaneapi.dependencies.dependencies_resolver import resolve_dependence
+from hurricaneapi.dependencies.postgres import Postgres
+from hurricaneapi.dependencies.redis import Redis
